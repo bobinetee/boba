@@ -4,8 +4,8 @@ export function initEventForm(toaster) {
   const formElement = document.querySelector("[data-event-form]");
   let mode = "create";
 
-  formElement.addEventListener("submit", (event) => {
-    event.preventDefault();
+  formElement.addEventListener("submit", (e) => {
+    e.preventDefault();
     
     const formEvent = formIntoEvent(formElement);
     const validationError = validateEvent(formEvent);
@@ -35,12 +35,12 @@ export function initEventForm(toaster) {
     switchToCreateMode(date, startTime, endTime) {
       mode = "create";
       fillFormWithDate(formElement, date, startTime, endTime);
-      loadRooms(); // Загружаем список залов
+      loadRooms();
     },
     switchToEditMode(eventData) {
       mode = "edit";
       fillFormWithEvent(formElement, eventData);
-      loadRooms(); // Загружаем список залов
+      loadRooms();
     },
     reset() {
       formElement.querySelector("#id").value = "";
@@ -50,8 +50,8 @@ export function initEventForm(toaster) {
 }
 
 async function loadRooms() {
-  const formElement = document.querySelector("[data-event-form]");
-  const select = formElement.querySelector("#room");
+  const form = document.querySelector("[data-event-form]");
+  const select = form.querySelector("#room");
   if (!select) return;
   
   try {
@@ -59,37 +59,29 @@ async function loadRooms() {
     const rooms = await res.json();
     select.innerHTML = '<option value="">Выберите зал...</option>' +
       rooms.map(r => `<option value="${r.id}">${r.name} (${r.capacity} мест)</option>`).join("");
-  } catch (e) {
-    console.error("Ошибка загрузки залов", e);
+  } catch (err) {
+    console.error("Ошибка загрузки залов", err);
   }
 }
 
 function fillFormWithDate(formElement, date, startTime, endTime) {
-  const dateInputElement = formElement.querySelector("#date");
-  const startTimeSelectElement = formElement.querySelector("#start-time");
-  const endTimeSelectElement = formElement.querySelector("#end-time");
-
-  dateInputElement.value = date.toISOString().substr(0, 10);
-  startTimeSelectElement.value = startTime;
-  endTimeSelectElement.value = endTime;
+  formElement.querySelector("#date").value = date.toISOString().substr(0, 10);
+  formElement.querySelector("#start-time").value = startTime;
+  formElement.querySelector("#end-time").value = endTime;
 }
 
 function fillFormWithEvent(formElement, eventData) {
-  const idInputElement = formElement.querySelector("#id");
-  const titleInputElement = formElement.querySelector("#title");
-  const dateInputElement = formElement.querySelector("#date");
-  const startTimeSelectElement = formElement.querySelector("#start-time");
-  const endTimeSelectElement = formElement.querySelector("#end-time");
-  const colorInputElement = formElement.querySelector(`input[name="color"][value="${eventData.color}"]`);
-  const roomSelectElement = formElement.querySelector("#room");
-
-  idInputElement.value = eventData.id;
-  titleInputElement.value = eventData.title;
-  dateInputElement.value = eventData.date.toISOString().substr(0, 10);
-  startTimeSelectElement.value = eventData.startTime;
-  endTimeSelectElement.value = eventData.endTime;
-  if (colorInputElement) colorInputElement.checked = true;
-  if (roomSelectElement && eventData.room_id) roomSelectElement.value = eventData.room_id;
+  formElement.querySelector("#id").value = eventData.id;
+  formElement.querySelector("#title").value = eventData.title;
+  formElement.querySelector("#date").value = eventData.date.toISOString().substr(0, 10);
+  formElement.querySelector("#start-time").value = eventData.startTime;
+  formElement.querySelector("#end-time").value = eventData.endTime;
+  
+  const colorInput = formElement.querySelector(`input[name="color"][value="${eventData.color}"]`);
+  if (colorInput) colorInput.checked = true;
+  
+  const roomSelect = formElement.querySelector("#room");
+  if (roomSelect && eventData.room_id) roomSelect.value = eventData.room_id;
 }
 
 function formIntoEvent(formElement) {
@@ -103,7 +95,6 @@ function formIntoEvent(formElement) {
   const color = formData.get("color");
   const room_id = formData.get("room_id");
 
-  // ✅ ИСПРАВЛЕНО: переменная event объявляется только ОДИН раз
   const event = {
     id: id ? Number.parseInt(id, 10) : generateEventId(),
     title,
@@ -111,7 +102,7 @@ function formIntoEvent(formElement) {
     startTime: Number.parseInt(startTime, 10),
     endTime: Number.parseInt(endTime, 10),
     color,
-    room_id: room_id ? Number.parseInt(room_id, 10) : 1 // По умолчанию зал №1
+    room_id: room_id ? Number.parseInt(room_id, 10) : 1
   };
 
   return event;
