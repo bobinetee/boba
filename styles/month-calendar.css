@@ -1,0 +1,94 @@
+/* Основной контейнер календарной сетки */
+.month-calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Шапка с днями недели (Sun, Mon, Tue...) */
+.month-calendar__day-of-week-list {
+  list-style: none;
+  display: grid;
+  /* Делим строку на 7 равных колонок */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-bottom: 1px solid var(--color-gray-300);
+  padding: 0.75rem 0;
+}
+
+.month-calendar__day-of-week {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Обертка для списка дней, чтобы он занимал всё свободное место */
+.month-calendar__day-list-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+/* Сама сетка дней месяца */
+.month-calendar__day-list {
+  list-style: none;
+  position: absolute;
+  inset: 0; /* Растягиваем на всю площадь родителя */
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  overflow-y: auto; /* Прокрутка, если ячейки не влезают */
+}
+
+/* Динамическое изменение количества строк в зависимости от месяца.
+   Классы добавляются через JS (month-calendar.js). */
+.month-calendar--four-week .month-calendar__day-list {
+  grid-template-rows: repeat(4, minmax(auto, 1fr));
+}
+
+.month-calendar--five-week .month-calendar__day-list {
+  grid-template-rows: repeat(5, minmax(auto, 1fr));
+}
+
+.month-calendar--six-week .month-calendar__day-list {
+  grid-template-rows: repeat(6, minmax(auto, 1fr));
+}
+
+/* Отдельная ячейка дня */
+.month-calendar__day {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--color-gray-300);
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+/* Подсветка текущего дня (актуально на 20 января 2026) */
+.month-calendar__day--highlight {
+  background-color: var(--color-blue-50);
+}
+
+/* Убираем правую границу у каждого седьмого элемента (конец недели) */
+.month-calendar__day:nth-child(7n) {
+  border-right: 0;
+}
+
+/* Убираем нижнюю границу у последнего ряда ячеек, чтобы не было двойных линий */
+.month-calendar--four-week .month-calendar__day:nth-child(n + 22) { border-bottom: 0; }
+.month-calendar--five-week .month-calendar__day:nth-child(n + 29) { border-bottom: 0; }
+.month-calendar--six-week .month-calendar__day:nth-child(n + 36) { border-bottom: 0; }
+
+/* Кнопка с числом месяца (1, 2, 3...) */
+.month-calendar__day-label {
+  color: var(--color-text-dark);
+  width: 100%;
+  padding: 0.5rem 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+/* Контейнер для списка событий внутри дня. 
+   flex-grow: 1 позволяет этой области занимать всё пространство ячейки,
+   благодаря чему клик для создания нового события срабатывает по всей ячейке. */
+.month-calendar__event-list-wrapper {
+  flex-grow: 1;
+  padding-bottom: 1.5rem;
+}

@@ -1,0 +1,110 @@
+/* --- ИМПОРТЫ КОМПОНЕНТОВ --- 
+   Каждый файл отвечает за свою часть интерфейса. Это позволяет легко менять 
+   стили кнопок или форм, не затрагивая остальной код. */
+@import "./button.css";         /* Стили всех кнопок */
+@import "./color-select.css";   /* Выбор цвета в форме */
+@import "./dialog.css";         /* Модальные окна */
+@import "./event-details.css";   /* Окно просмотра деталей */
+@import "./event-list.css";     /* Списки событий в ячейках */
+@import "./event.css";          /* Сами карточки событий */
+@import "./fab.css";            /* Плавающая кнопка для мобилок */
+@import "./form.css";           /* Поля форм и верстка диалогов */
+@import "./input.css";          /* Стили полей ввода */
+@import "./mini-calendar.css";  /* Маленькие календари (сайдбар) */
+@import "./nav.css";            /* Навигация (верхняя панель) */
+@import "./month-calendar.css"; /* Основная сетка месяца */
+@import "./scroll.css";         /* Кастомные полосы прокрутки */
+@import "./select.css";         /* Выпадающие списки */
+@import "./sidebar.css";        /* Боковая панель */
+@import "./toaster.css";        /* Всплывающие уведомления */
+@import "./week-calendar.css";  /* Сетка недели и дня */
+@import "./responsive.css";     /* Глобальные адаптивные правила */
+
+/* ГЛОБАЛЬНЫЙ СБРОС (Reset) */
+* {
+  font-family: ui-sans-serif, system-ui, sans-serif; /* Современные шрифты системы */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Чтобы padding не увеличивал размер элементов */
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-dark); /* Основной цвет текста */
+}
+
+/* ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (Design System) 
+   В 2026 году это стандарт: если вы захотите сменить синий цвет на другой, 
+   вам достаточно будет поменять значение '--color-blue-600' в одном месте. */
+:root {
+  /* Типографика (Размеры и межстрочные интервалы) */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-2xl: 1.5rem;
+
+  --line-height-xs: 1rem;
+  --line-height-sm: 1.25rem;
+  --line-height-md: 1.5rem;
+  --line-height-lg: 1.75rem;
+  --line-height-2xl: 2rem;
+
+  /* Радиус скругления углов */
+  --border-radius-md: 0.25rem;
+
+  /* Длительность анимаций (используется в JS и CSS) */
+  --duration-sm: 100ms;
+  --duration-md: 300ms;
+  --duration-2xl: 3000ms;
+
+  /* ПАЛИТРА ЦВЕТОВ */
+  --color-blue-50: #eff6ff;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb; /* Основной акцентный синий */
+
+  --color-red-500: #ef4444;  /* Цвет для ошибок и удаления */
+  --color-red-600: #dc2626;
+
+  --color-green-600: #16a34a; /* Цвет успеха (Notifications) */
+
+  --color-gray-100: #f3f4f6;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-text-light: #f9fafb;
+  --color-text-dark: #030712;
+
+  /* Тени для эффекта глубины (модалки и кнопки) */
+  --box-shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* ГЛАВНЫЕ КОНТЕЙНЕРЫ */
+.app {
+  height: 100vh; /* Приложение на всю высоту экрана */
+}
+
+.main {
+  display: flex;
+  flex-direction: column; /* Контент под навигацией */
+  height: 100%;
+}
+
+.calendar {
+  height: 100%; /* Контейнер для сетки на всю оставшуюся высоту */
+}
+
+/* АДАПТИВНОСТЬ: Сетка на компьютерах */
+@media (min-width: 768px) {
+  .app {
+    display: grid;
+    /* Сайдбар занимает свою ширину (auto), остальное — календарь (1fr) */
+    grid-template-columns: auto 1fr;
+  }
+}
