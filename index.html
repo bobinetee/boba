@@ -8,42 +8,6 @@
   <title>Бронирование переговорных</title>
 </head>
 <body>
-<body>
-  <!-- ========== ЭКРАН ВХОДА ========== -->
-  <div id="login-screen" class="login-screen" style="display:none;">
-    <div class="login-card">
-      <div class="login-logo">📅</div>
-      <h1 class="login-title">Бронирование переговорных</h1>
-      <p class="login-subtitle">Войдите в систему для продолжения</p>
-      <form id="login-form" class="login-form">
-        <div class="form-field">
-          <label for="login-username">Логин</label>
-          <input type="text" id="login-username" name="username" required autofocus />
-        </div>
-        <div class="form-field">
-          <label for="login-password">Пароль</label>
-          <input type="password" id="login-password" name="password" required />
-        </div>
-        <div id="login-error" class="login-error"></div>
-        <button type="submit" class="login-btn">Войти</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ========== ОСНОВНОЕ ПРИЛОЖЕНИЕ ========== -->
-  <div id="app-screen" style="display:none;">
-    <div class="top-bar">
-      <div class="top-bar__left">
-        <span class="top-bar__title">📅 Бронирование переговорных</span>
-      </div>
-      <div class="top-bar__right">
-        <button id="admin-panel-btn" class="top-bar__btn" style="display:none;">👥 Сотрудники</button>
-        <div id="user-info" class="user-info"></div>
-        <button id="logout-btn" class="top-bar__btn" style="display:none;">Выйти</button>
-      </div>
-    </div>
-
-    <!-- ДАЛЕЕ ИДЕТ ВАШ СТАРЫЙ КОД <div class="app"> ... -->
 
   <!-- ========== ЭКРАН ВХОДА ========== -->
   <div id="login-screen" class="login-screen" style="display:none;">
@@ -51,7 +15,6 @@
       <div class="login-logo">📅</div>
       <h1 class="login-title">Бронирование переговорных</h1>
       <p class="login-subtitle">Войдите в систему для продолжения</p>
-      
       <form id="login-form" class="login-form">
         <div class="form-field">
           <label for="login-username">Логин</label>
@@ -69,8 +32,6 @@
 
   <!-- ========== ОСНОВНОЕ ПРИЛОЖЕНИЕ ========== -->
   <div id="app-screen" style="display:none;">
-    
-    <!-- Верхняя шапка с информацией о пользователе -->
     <div class="top-bar">
       <div class="top-bar__left">
         <span class="top-bar__title">📅 Бронирование переговорных</span>
@@ -79,9 +40,7 @@
         </select>
       </div>
       <div class="top-bar__right">
-        <button id="admin-panel-btn" class="top-bar__btn" style="display:none;">
-          👥 Сотрудники
-        </button>
+        <button id="admin-panel-btn" class="top-bar__btn" style="display:none;">👥 Сотрудники</button>
         <div id="user-info" class="user-info"></div>
         <button id="logout-btn" class="top-bar__btn" style="display:none;">Выйти</button>
       </div>
@@ -125,7 +84,7 @@
           </div>
         </div>
       </div>
-      
+
       <main class="main">
         <div class="nav">
           <button class="button button--icon button--secondary mobile-only" data-hamburger-button>
@@ -159,110 +118,44 @@
       </main>
     </div>
 
-    <!-- Кнопка создания (мобильная) -->
     <button class="fab mobile-only" data-event-create-button>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14" /><path d="M12 5v14" />
       </svg>
     </button>
 
-    <!-- Диалоги (форма, детали, удаление) — оставьте как у вас было -->
-    <!-- ... здесь оставьте все <dialog> из вашего старого index.html ... -->
-  </div>
+    <!-- ========== ДИАЛОГ: ФОРМА СОБЫТИЯ ========== -->
+    <dialog class="dialog" data-dialog="event-form">
+      <form class="form" data-event-form>
+        <div class="dialog__wrapper">
+          <div class="dialog__header">
+            <h2 class="dialog__title" data-dialog-title></h2>
+            <button class="button button--icon button--secondary" type="button" data-dialog-close-button>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="dialog__content">
+            <div class="form__fields">
+              <input type="hidden" id="id" name="id" />
 
-  <!-- ========== АДМИН-ПАНЕЛЬ (отдельное модальное окно) ========== -->
-  <dialog id="admin-dialog" class="dialog admin-dialog">
-    <div class="dialog__wrapper dialog__wrapper--wide">
-      <div class="dialog__header">
-        <h2 class="dialog__title">👥 Управление сотрудниками</h2>
-        <button class="button button--icon button--secondary" id="admin-close-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="dialog__content">
-        <div class="admin-toolbar">
-          <button id="admin-add-btn" class="button button--primary">+ Добавить сотрудника</button>
-          <input type="text" id="admin-search" placeholder="Поиск по ФИО / отделу..." class="admin-search" />
-        </div>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Таб. №</th>
-              <th>ФИО</th>
-              <th>Отдел</th>
-              <th>Логин</th>
-              <th>Роль</th>
-              <th>Статус</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody id="admin-users-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-  </dialog>
+              <div class="form__field">
+                <label class="form__label" for="title">Название</label>
+                <input class="input input--fill" id="title" name="title" type="text" placeholder="Введите название мероприятия" required autofocus />
+              </div>
 
-  <!-- Диалог добавления/редактирования сотрудника -->
-  <dialog id="user-form-dialog" class="dialog">
-    <form id="user-form" class="form">
-      <div class="dialog__wrapper">
-        <div class="dialog__header">
-          <h2 class="dialog__title" id="user-form-title">Новый сотрудник</h2>
-          <button type="button" class="button button--icon button--secondary" id="user-form-close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="dialog__content">
-          <input type="hidden" id="user-id" name="id" />
-          <div class="form__field">
-            <label>Табельный номер *</label>
-            <input type="text" id="user-employee" name="employee_number" required />
-          </div>
-          <div class="form__field">
-            <label>ФИО *</label>
-            <input type="text" id="user-fullname" name="full_name" required />
-          </div>
-          <div class="form__field">
-            <label>Отдел *</label>
-            <input type="text" id="user-department" name="department" required />
-          </div>
-          <div class="form__field">
-            <label>Логин *</label>
-            <input type="text" id="user-username" name="username" required />
-          </div>
-          <div class="form__field">
-            <label id="password-label">Пароль *</label>
-            <input type="text" id="user-password" name="password" />
-          </div>
-          <div class="form__field">
-            <label>Роль</label>
-            <select id="user-role" name="role">
-              <option value="user">Сотрудник</option>
-              <option value="admin">Администратор</option>
-            </select>
-          </div>
-          <div class="form__field">
-            <label><input type="checkbox" id="user-active" name="is_active" checked /> Активен</label>
-          </div>
-        </div>
-        <div class="dialog__footer">
-          <button type="button" class="button button--secondary" id="user-form-cancel">Отмена</button>
-          <button type="submit" class="button button--primary">Сохранить</button>
-        </div>
-      </div>
-    </form>
-  </dialog>
-<div class="form__field">
-  <label class="form__label" for="room">Переговорная</label>
-  <select class="select select--fill" id="room" name="room_id" required>
-    <option value="">Выберите зал...</option>
-  </select>
-</div>
-  <script src="./scripts/index.js" type="module"></script>
-  </div>
-</body>
-</html>
+              <div class="form__field">
+                <label class="form__label" for="room">Переговорная</label>
+                <select class="select select--fill" id="room" name="room_id" required>
+                  <option value="">Выберите зал...</option>
+                </select>
+              </div>
+
+              <div class="form__field">
+                <label class="form__label" for="date">Дата</label>
+                <input class="input input--fill" id="date" name="date" type="date" required />
+              </div>
+
+              <div class="form__split">
+               
